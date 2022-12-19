@@ -13,8 +13,9 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   final MovieController movieController = MovieController();
-  var listMovie = [];
-  var simple = 0;
+
+  String searchFieldValue = "";
+  List<Movie> listMovie = [];
 
   Widget mountView() {
     if (listMovie.isNotEmpty) {
@@ -30,9 +31,13 @@ class _SearchState extends State<Search> {
             );
           },
           child: Card(
+            color: Color(0xFF384249),
             child: ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
               textColor: Colors.white,
-              tileColor: Color(0xFF011221),
+              tileColor: Color(0xFF384249),
               leading: movie.posterPath != ""
                   ? Image(image: NetworkImage('https://image.tmdb.org/t/p/w92/' + movie.posterPath))
                   : Image.asset('resources/test.png'),
@@ -46,6 +51,32 @@ class _SearchState extends State<Search> {
         ));
       }
       return ListView(children: list);
+    }
+
+    if (listMovie.isEmpty && searchFieldValue.length > 0) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('resources/cinema_2.png'),
+            Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(children: [
+                    TextSpan(
+                      text: "No results found for ",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    TextSpan(
+                      text: searchFieldValue,
+                      style: TextStyle(color: Colors.blueAccent, fontSize: 18),
+                    ),
+                  ]),
+                )),
+          ],
+        ),
+      );
     }
 
     return Center(
@@ -99,6 +130,7 @@ class _SearchState extends State<Search> {
                     ),
                   ),
                   onChanged: (text) async {
+                    setState(() => searchFieldValue = text);
                     if (text.length > 3) {
                       var movies = await movieController.getMovieByQuery(text);
                       setState(() => listMovie = movies);

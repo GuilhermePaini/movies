@@ -70,6 +70,7 @@ flutter:
     - resources/searching_key_colorfull_w128.png
     - resources/searching_key_colorfull_w64.png
     - resources/cinema.png
+    - resources/cinema_2.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

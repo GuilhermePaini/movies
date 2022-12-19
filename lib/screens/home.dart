@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mamamamovies/controllers/movie_controller.dart';
 
 import '../models/movie_model.dart';
+import 'movie_details.dart';
 
 class Home extends StatefulWidget {
   Home({super.key});
@@ -13,13 +14,29 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final MovieController movieController = MovieController();
   List<Movie> trendings = [];
+  List<Movie> upcomings = [];
+  List<Movie> topRated = [];
 
   _HomeState() {
     movieController.getTrendings().then((value) => setState(() => trendings = value));
+    movieController.getUpcoming().then((value) => setState(() => upcomings = value));
+    movieController.getToprated().then((value) => setState(() => topRated = value));
   }
 
   List<Widget> getTrendings() => trendings
-      .map((Movie mov) => TrendMovie(
+      .map((Movie mov) => MovieCard(
+            movie: mov,
+          ))
+      .toList();
+
+  List<Widget> getUpcoming() => upcomings
+      .map((Movie mov) => MovieCard(
+            movie: mov,
+          ))
+      .toList();
+
+  List<Widget> getToprated() => topRated
+      .map((Movie mov) => MovieCard(
             movie: mov,
           ))
       .toList();
@@ -33,58 +50,45 @@ class _HomeState extends State<Home> {
             Expanded(
               child: Column(
                 children: [
-                  Text(
-                    "Movies trending this week",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF63C5B7)),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
+                    child: Text(
+                      "Treding this week",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
                   ),
                   Expanded(
                       child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: getTrendings(),
                   )),
-                  Text(
-                    "Movies 123",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF63C5B7)),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
+                    child: Text(
+                      "Upcoming",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
                   ),
                   Expanded(
                       child: ListView(
                     scrollDirection: Axis.horizontal,
-                    children: getTrendings(),
+                    children: getUpcoming(),
                   )),
-                  Text(
-                    "Movies asdasdasdas",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF63C5B7)),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
+                    child: Text(
+                      "Top rated",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
                   ),
                   Expanded(
                       child: ListView(
                     scrollDirection: Axis.horizontal,
-                    children: getTrendings(),
+                    children: getToprated(),
                   )),
-                  // FutureBuilder(
-                  //   future: movieController.getTrendings(),
-                  //   builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  //     if (!snapshot.hasData) {
-                  //       return const Center(
-                  //         child: CircularProgressIndicator(),
-                  //       );
-                  //     }
-                  //     List<Movie> movies = snapshot.data;
-                  //     return ListView(
-                  //       scrollDirection: Axis.horizontal,
-                  //       children: movies
-                  //           .map((Movie mov) => TrendMovie(
-                  //                 movie: mov,
-                  //               ))
-                  //           .toList(),
-                  //     );
-                  //   },
-                  // ),
-                  // Expanded(
-                  //   child: Spacer(),
-                  // ),
-                  // Expanded(
-                  //   child: Spacer(),
-                  // )
                 ],
               ),
             )
@@ -93,18 +97,29 @@ class _HomeState extends State<Home> {
   }
 }
 
-class TrendMovie extends StatelessWidget {
-  TrendMovie({Key? key, required this.movie});
+class MovieCard extends StatelessWidget {
+  MovieCard({Key? key, required this.movie});
 
   final Movie movie;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: 160.0,
-        margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
-        child: Image(
-          image: NetworkImage('https://image.tmdb.org/t/p/w154/' + movie.posterPath),
-        ));
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: ((context) => MovieDetails(movie: movie)),
+          ),
+        );
+      },
+      child: Container(
+          margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Image(
+              image: NetworkImage('https://image.tmdb.org/t/p/w154/' + movie.posterPath),
+            ),
+          )),
+    );
   }
 }

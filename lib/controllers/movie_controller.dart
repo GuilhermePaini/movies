@@ -36,6 +36,56 @@ class MovieController {
     }
   }
 
+  Future<List<Movie>> getUpcoming() async {
+    if (apiKey.isEmpty) {
+      throw AssertionError('TMDB_KEY is not set');
+    }
+
+    final url = Uri(
+      scheme: 'https',
+      host: 'api.themoviedb.org',
+      path: '3/movie/upcoming',
+      queryParameters: {
+        'api_key': apiKey, // read it here
+      },
+    );
+
+    Response response = await get(url);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      List<dynamic> results = body["results"];
+      return results.map((item) => Movie.fromJson(item)).toList();
+    } else {
+      throw "Unable to retrieve posts";
+    }
+  }
+
+  Future<List<Movie>> getToprated() async {
+    if (apiKey.isEmpty) {
+      throw AssertionError('TMDB_KEY is not set');
+    }
+
+    final url = Uri(
+      scheme: 'https',
+      host: 'api.themoviedb.org',
+      path: '3/movie/top_rated',
+      queryParameters: {
+        'api_key': apiKey, // read it here
+      },
+    );
+
+    Response response = await get(url);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      List<dynamic> results = body["results"];
+      return results.map((item) => Movie.fromJson(item)).toList();
+    } else {
+      throw "Unable to retrieve posts";
+    }
+  }
+
   Future<List<Movie>> getMovieByQuery(query) async {
     if (apiKey.isEmpty) {
       throw AssertionError('TMDB_KEY is not set');
