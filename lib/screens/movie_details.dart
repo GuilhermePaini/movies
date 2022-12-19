@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mamamamovies/models/movie_model.dart';
+import 'package:themoviedbapp/models/movie_model.dart';
 
 class MovieDetails extends StatelessWidget {
   MovieDetails({super.key, required this.movie});

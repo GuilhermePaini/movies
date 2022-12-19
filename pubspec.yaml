@@ -1,4 +1,4 @@
-name: mamamamovies
+name: themoviedbapp
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -64,11 +64,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - resources/logo.png
-    - resources/placeholder.png
     - resources/test.png
-    - resources/searching_key_w128.png
-    - resources/searching_key_colorfull_w128.png
-    - resources/searching_key_colorfull_w64.png
     - resources/cinema.png
     - resources/cinema_2.png
 

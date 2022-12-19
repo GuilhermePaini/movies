@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mamamamovies/controllers/movie_controller.dart';
+import 'package:themoviedbapp/controllers/movie_controller.dart';
 
 import '../models/movie_model.dart';
 import 'movie_details.dart';

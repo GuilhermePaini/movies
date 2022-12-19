@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:mamamamovies/models/movie_keyword.dart';
-import 'package:mamamamovies/models/movie_model.dart';
+import 'package:themoviedbapp/models/movie_keyword.dart';
+import 'package:themoviedbapp/models/movie_model.dart';
 import 'package:http/http.dart';
 
 class MovieController {

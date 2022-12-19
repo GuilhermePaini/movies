@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mamamamovies/screens/home.dart';
-import 'package:mamamamovies/screens/search.dart';
+
+import 'package:themoviedbapp/screens/home.dart';
+import 'package:themoviedbapp/screens/search.dart';
 
 void main() {
   runApp(const MyApp());
